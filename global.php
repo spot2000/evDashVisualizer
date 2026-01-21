@@ -84,7 +84,11 @@ function latPerPixel($tileNo, $zoom) {
  */
 function fetchTile($url) {
 
-    $cacheTileName = "cache/tile_" . md5($url) . ".jpg";
+    $cacheDir = __DIR__ . "/cache";
+    if (!is_dir($cacheDir)) {
+        mkdir($cacheDir, 0775, true);
+    }
+    $cacheTileName = $cacheDir . "/tile_" . md5($url) . ".jpg";
     if (file_exists($cacheTileName) && filesize($cacheTileName) > 100) {
         return file_get_contents($cacheTileName);
     }
